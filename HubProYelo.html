@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Hub Pro - Solução Integrada Profissional</title>
+    <style>
+        :root {
+            /* Palette Amber Gold High Contrast */
+            --color-primary: #eab308;
+            --color-primary-hover: #ca8a04;
+            --color-primary-text: #0f172a; 
+            --color-secondary: #0ea5e9;
+            --color-danger: #f43f5e;
+            --color-success: #10b981;
+            --color-warning: #f59e0b;
+            --color-bg: #f8fafc;
+            --color-surface: #ffffff;
+            --color-text: #0f172a;
+            --color-text-light: #64748b;
+            --color-border: #e2e8f0;
+            
+            --spacing-sm: 8px;
+            --spacing-md: 16px;
+            --spacing-lg: 24px;
+            --radius: 12px;
+            --shadow: 0 4px 6px -1px rgba(234, 179, 8, 0.2);
+            --shadow-lg: 0 10px 15px -3px rgba(234, 179, 8, 0.25);
+        }
+
+        body.dark-mode {
+            --color-bg: #020617;
+            --color-surface: #0f172a;
+            --color-text: #f1f5f9;
+            --color-text-light: #94a3b8;
+            --color-border: #1e293b;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.5);
+            background-color: #020617 !important;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', system-ui, sans-serif; -webkit-tap-highlight-color: transparent; }
+        body { background-color: var(--color-bg); color: var(--color-text); min-height: 100vh; padding: 12px; transition: 0.3s; }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, var(--color-primary), var(--color-primary-hover));
+            color: var(--color-primary-text); padding: 20px; border-radius: var(--radius); margin-bottom: 20px;
+            display: flex; justify-content: center; box-shadow: var(--shadow-lg);
+        }
+        .header-content { width: 100%; max-width: 1400px; display: flex; justify-content: space-between; align-items: center; }
+        .header h1 { font-size: 20px; font-weight: 800; letter-spacing: -0.5px; }
+
+        /* Navigation & Layout */
+        .container { display: grid; grid-template-columns: 280px 1fr; gap: 20px; max-width: 1440px; margin: 0 auto; width: 100%; }
+        
+        .sidebar { 
+            background: var(--color-surface); padding: 20px; border-radius: var(--radius); 
+            border: 1px solid var(--color-border); height: fit-content; position: sticky; 
+            top: 20px; box-shadow: var(--shadow); max-height: 90vh; overflow-y: auto;
+        }
+        .sidebar-title { font-size: 11px; font-weight: 800; color: var(--color-text-light); text-transform: uppercase; letter-spacing: 1px; margin: 20px 0 10px; border-bottom: 1px solid var(--color-border); padding-bottom: 4px; }
+        
+        .nav-button {
+            width: 100%; padding: 12px 16px; margin-bottom: 4px; border: none; background: transparent;
+            border-radius: 8px; cursor: pointer; text-align: left; font-size: 14px; font-weight: 500; 
+            color: var(--color-text); transition: 0.2s; display: flex; align-items: center; gap: 10px;
+        }
+        .nav-button:hover { background: var(--color-bg); color: var(--color-primary-hover); }
+        .nav-button.active { background: var(--color-primary); color: var(--color-primary-text); font-weight: 700; box-shadow: 0 4px 12px rgba(234, 179, 8, 0.4); }
+
+        /* Main Content */
+        .content { background: var(--color-surface); padding: 24px; border-radius: var(--radius); border: 1px solid var(--color-border); box-shadow: var(--shadow); }
+        .section { display: none; }
+        .section.active { display: block; animation: fadeIn 0.3s ease; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        .section-title { font-size: 24px; font-weight: 800; margin-bottom: 5px; color: var(--color-primary-hover); }
+        .section-desc { font-size: 13px; color: var(--color-text-light); margin-bottom: 20px; }
+        
+        .subsection { background: var(--color-bg); padding: 20px; border-radius: var(--radius); border: 1px solid var(--color-border); margin-bottom: 24px; }
+        .subsection-title { font-size: 16px; font-weight: 700; margin-bottom: 5px; color: var(--color-primary-hover); }
+        .tip-text { font-size: 12px; color: var(--color-text-light); font-style: italic; margin-bottom: 12px; display: block; }
+
+        /* UI Elements */
+        .form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; margin-bottom: 12px; }
+        label { display: block; font-size: 11px; font-weight: 700; color: var(--color-text-light); margin-bottom: 4px; text-transform: uppercase; }
+        input, select { width: 100%; padding: 10px; border: 1px solid var(--color-border); border-radius: 8px; background: var(--color-surface); color: var(--color-text); font-size: 14px; }
+        input:focus { border-color: var(--color-primary); outline: none; }
+        
+        .btn { padding: 12px 16px; border: none; border-radius: 8px; font-weight: 700; cursor: pointer; transition: 0.2s; display: inline-flex; align-items: center; justify-content: center; gap: 8px; font-size: 13px; width: 100%; margin-top: 5px; }
+        .btn-primary { background: var(--color-primary); color: var(--color-primary-text); }
+
+        .formula { font-family: 'JetBrains Mono', monospace; background: #0f172a; color: var(--color-primary); padding: 10px; border-radius: 6px; font-size: 11px; margin-bottom: 12px; border-left: 3px solid var(--color-primary); overflow-x: auto; font-weight: 600; }
+
+        /* Result Area */
+        .result-box {
+            background: linear-gradient(135deg, rgba(234, 179, 8, 0.12), rgba(14, 165, 233, 0.05));
+            border: 1px solid var(--color-primary); border-left-width: 6px;
+            padding: 20px; border-radius: var(--radius); margin-top: 16px; display: none; position: relative;
+        }
+        .result-box.show { display: block; }
+        .result-value { font-size: 28px; font-weight: 800; color: var(--color-primary-hover); margin: 4px 0; word-break: break-all; }
+        .result-label { font-size: 10px; text-transform: uppercase; color: var(--color-text-light); letter-spacing: 1px; }
+
+        /* Tabs */
+        .tabs { display: flex; gap: 6px; background: var(--color-bg); padding: 4px; border-radius: 10px; margin-bottom: 20px; width: 100%; overflow-x: auto; border: 1px solid var(--color-border); }
+        .tab-btn { flex: 1; padding: 10px; border: none; background: transparent; border-radius: 6px; cursor: pointer; font-size: 13px; font-weight: 600; color: var(--color-text-light); white-space: nowrap; }
+        .tab-btn.active { background: var(--color-surface); color: var(--color-primary-hover); box-shadow: var(--shadow); }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+
+        /* Mobile Adjustments */
+        @media (max-width: 1024px) {
+            body { padding: 8px; }
+            .container { grid-template-columns: 1fr; gap: 12px; }
+            .header { padding: 15px; margin-bottom: 12px; }
+            .sidebar { 
+                position: sticky; top: 0; z-index: 100; display: flex; 
+                overflow-x: auto; gap: 8px; padding: 8px; border-radius: 0;
+                margin: -8px -8px 10px -8px; width: calc(100% + 16px);
+                border-left: none; border-right: none;
+                scrollbar-width: none;
+            }
+            .sidebar-title { display: none; }
+            .nav-button { width: auto; padding: 8px 16px; margin-bottom: 0; white-space: nowrap; background: var(--color-bg); }
+        }
+
+        .copy-btn { position: absolute; top: 10px; right: 10px; background: var(--color-primary); color: var(--color-primary-text); padding: 5px 10px; border-radius: 6px; font-size: 10px; border: none; cursor: pointer; font-weight: 700; z-index: 2; }
+    </style>
+</head>
+<body>
+
+    <header class="header">
+        <div class="header-content">
+            <div>
+                <h1>⚙️ Hub Pro - Edição Master</h1>
+                <p style="font-size: 11px; opacity: 0.9;">Calculadora Técnica & Geometria de Precisão</p>
+            </div>
+            <button class="theme-toggle" style="background:rgba(15, 23, 42, 0.1); border:none; width:36px; height:36px; border-radius:50%; color:var(--color-primary-text); cursor:pointer;" onclick="toggleTheme()">🌙</button>
+        </div>
+    </header>
+
+    <div class="container">
+        <aside class="sidebar">
+            <div class="sidebar-title">Cálculos</div>
+            <button class="nav-button active" onclick="switchSection('combustivel', this)">⛽ Combustível</button>
+            <button class="nav-button" onclick="switchSection('geometrica', this)">📐 Geometria</button>
+            <button class="nav-button" onclick="switchSection('utilidades', this)">🛠️ Utilidades</button>
+            
+            <div class="sidebar-title">Conversores</div>
+            <button class="nav-button" onclick="switchSection('moedas', this)">💱 Moedas</button>
+            <button class="nav-button" onclick="switchSection('temperatura', this)">🌡️ Temperatura</button>
+            <button class="nav-button" onclick="switchSection('comprimento', this)">📏 Comprimento</button>
+            <button class="nav-button" onclick="switchSection('massa', this)">⚖️ Massa</button>
+            <button class="nav-button" onclick="switchSection('velocidade', this)">⚡ Velocidade</button>
+            <button class="nav-button" onclick="switchSection('volume', this)">🥤 Volume</button>
+            <button class="nav-button" onclick="switchSection('area', this)">📐 Área</button>
+            <button class="nav-button" onclick="switchSection('dados', this)">💾 Dados</button>
+            <button class="nav-button" onclick="switchSection('pressao', this)">🎈 Pressão</button>
+        </aside>
+
+        <main class="content">
+            <!-- SEÇÃO COMBUSTÍVEL -->
+            <section id="combustivel" class="section active">
+                <h2 class="section-title">⛽ Combustível</h2>
+                <p class="section-desc">Cálculo de autonomia e gastos para viagens.</p>
+                <div class="subsection">
+                    <div class="formula">Custo = (Distância / Consumo) × Preço Litro</div>
+                    <div class="form-grid">
+                        <div class="form-group"><label>Distância (km)</label><input type="number" id="f_dist"></div>
+                        <div class="form-group"><label>Consumo (km/L)</label><input type="number" id="f_cons"></div>
+                        <div class="form-group"><label>Preço/L (R$)</label><input type="number" id="f_prec" step="0.01"></div>
+                    </div>
+                    <button class="btn btn-primary" onclick="calcFuel()">Calcular Agora</button>
+                    <div id="res_fuel" class="result-box"></div>
+                </div>
+            </section>
+
+            <!-- SEÇÃO GEOMETRIA (COMPLETA) -->
+            <section id="geometrica" class="section">
+                <h2 class="section-title">📐 Geometria</h2>
+                <div class="tabs">
+                    <button class="tab-btn active" onclick="switchTab('geo2d', this)">Planas (2D)</button>
+                    <button class="tab-btn" onclick="switchTab('geo3d', this)">Espaciais (3D)</button>
+                </div>
+
+                <!-- 2D FIGURES -->
+                <div id="geo2d" class="tab-content active">
+                    <div class="subsection"><div class="subsection-title">Quadrado</div><div class="formula">A = L²</div><label>Lado (L)</label><input type="number" id="q_l"><button class="btn btn-primary" onclick="calc2D('q')">Calcular Área</button><div id="res_q" class="result-box"></div></div>
+                    <div class="subsection"><div class="subsection-title">Retângulo</div><div class="formula">A = b × h</div><div class="form-grid"><input type="number" id="r_b" placeholder="Base"><input type="number" id="r_h" placeholder="Altura"></div><button class="btn btn-primary" onclick="calc2D('r')">Calcular Área</button><div id="res_r" class="result-box"></div></div>
+                    <div class="subsection"><div class="subsection-title">Triângulo</div><div class="formula">A = (b × h) / 2</div><div class="form-grid"><input type="number" id="t_b" placeholder="Base"><input type="number" id="t_h" placeholder="Altura"></div><button class="btn btn-primary" onclick="calc2D('t')">Calcular Área</button><div id="res_t" class="result-box"></div></div>
+                    <div class="subsection"><div class="subsection-title">Círculo</div><div class="formula">A = π × r²</div><label>Raio (r)</label><input type="number" id="c_r"><button class="btn btn-primary" onclick="calc2D('c')">Calcular Área</button><div id="res_c" class="result-box"></div></div>
+                    <div class="subsection"><div class="subsection-title">Trapézio</div><div class="formula">A = ((B + b) × h) / 2</div><div class="form-grid"><input type="number" id="tr_B" placeholder="Base M"><input type="number" id="tr_b" placeholder="Base m"><input type="number" id="tr_h" placeholder="Altura"></div><button class="btn btn-primary" onclick="calc2D('tr')">Calcular Área</button><div id="res_tr" class="result-box"></div></div>
+                    <div class="subsection"><div class="subsection-title">Losango</div><div class="formula">A = (D × d) / 2</div><div class="form-grid"><input type="number" id="l_D" placeholder="D Maior"><input type="number" id="l_d" placeholder="d Menor"></div><button class="btn btn-primary" onclick="calc2D('l')">Calcular Área</button><div id="res_l" class="result-box"></div></div>
+                    <div class="subsection"><div class="subsection-title">Elipse</div><div class="formula">A = π × a × b</div><div class="form-grid"><input type="number" id="e_a" placeholder="Eixo a"><input type="number" id="e_b" placeholder="Eixo b"></div><button class="btn btn-primary" onclick="calc2D('e')">Calcular Área</button><div id="res_e" class="result-box"></div></div>
+                </div>
+
+                <!-- 3D FIGURES -->
+                <div id="geo3d" class="tab-content">
+                    <div class="subsection"><div class="subsection-title">Cubo</div><div class="formula">V = L³</div><label>Aresta (L)</label><input type="number" id="cb_l"><button class="btn btn-primary" onclick="calc3D('cb')">Calcular Volume</button><div id="res_cb" class="result-box"></div></div>
+                    <div class="subsection"><div class="subsection-title">Paralelepípedo</div><div class="formula">V = c × l × a</div><div class="form-grid"><input type="number" id="pp_c" placeholder="C"><input type="number" id="pp_l" placeholder="L"><input type="number" id="pp_a" placeholder="A"></div><button class="btn btn-primary" onclick="calc3D('pp')">Calcular Volume</button><div id="res_pp" class="result-box"></div></div>
+                    <div class="subsection"><div class="subsection-title">Cilindro</div><div class="formula">V = π × r² × h</div><div class="form-grid"><input type="number" id="cl_r" placeholder="Raio"><input type="number" id="cl_h" placeholder="Altura"></div><button class="btn btn-primary" onclick="calc3D('cl')">Calcular Volume</button><div id="res_cl" class="result-box"></div></div>
+                    <div class="subsection"><div class="subsection-title">Cone</div><div class="formula">V = (π × r² × h) / 3</div><div class="form-grid"><input type="number" id="cn_r" placeholder="Raio"><input type="number" id="cn_h" placeholder="Altura"></div><button class="btn btn-primary" onclick="calc3D('cn')">Calcular Volume</button><div id="res_cn" class="result-box"></div></div>
+                    <div class="subsection"><div class="subsection-title">Esfera</div><div class="formula">V = (4/3) × π × r³</div><label>Raio (r)</label><input type="number" id="es_r"><button class="btn btn-primary" onclick="calc3D('es')">Calcular Volume</button><div id="res_es" class="result-box"></div></div>
+                    <div class="subsection"><div class="subsection-title">Pirâmide</div><div class="formula">V = (Ab × h) / 3</div><div class="form-grid"><input type="number" id="pi_l" placeholder="Lado Base"><input type="number" id="pi_h" placeholder="Altura"></div><button class="btn btn-primary" onclick="calc3D('pi')">Calcular Volume</button><div id="res_pi" class="result-box"></div></div>
+                    <div class="subsection"><div class="subsection-title">Prisma Triangular</div><div class="formula">V = ((b × ht)/2) × hp</div><div class="form-grid"><input type="number" id="pt_b" placeholder="Base T"><input type="number" id="pt_ht" placeholder="Alt T"><input type="number" id="pt_hp" placeholder="Alt P"></div><button class="btn btn-primary" onclick="calc3D('pt')">Calcular Volume</button><div id="res_pt" class="result-box"></div></div>
+                </div>
+            </section>
+
+            <!-- CONVERSORES DINÂMICOS -->
+            <section id="moedas" class="section"><h2 class="section-title">💱 Moedas</h2><div id="ui_moedas" class="subsection"></div></section>
+            <section id="temperatura" class="section"><h2 class="section-title">🌡️ Temperatura</h2><div id="ui_temp" class="subsection"></div></section>
+            <section id="comprimento" class="section"><h2 class="section-title">📏 Comprimento</h2><div id="ui_comp" class="subsection"></div></section>
+            <section id="massa" class="section"><h2 class="section-title">⚖️ Massa</h2><div id="ui_massa" class="subsection"></div></section>
+            <section id="velocidade" class="section"><h2 class="section-title">⚡ Velocidade</h2><div id="ui_vel" class="subsection"></div></section>
+            <section id="volume" class="section"><h2 class="section-title">🥤 Volume</h2><div id="ui_vol" class="subsection"></div></section>
+            <section id="area" class="section"><h2 class="section-title">📐 Área</h2><div id="ui_area" class="subsection"></div></section>
+            <section id="dados" class="section"><h2 class="section-title">💾 Dados Digitais</h2><div id="ui_dados" class="subsection"></div></section>
+            <section id="pressao" class="section"><h2 class="section-title">🎈 Pressão</h2><div id="ui_pressao" class="subsection"></div></section>
+
+            <!-- UTILIDADES -->
+            <section id="utilidades" class="section">
+                <h2 class="section-title">🛠️ Utilidades</h2>
+                <div class="subsection">
+                    <div class="subsection-title">Desconto / Acréscimo Perc.</div>
+                    <div class="form-grid"><input type="number" id="u_v" placeholder="Valor Original"><input type="number" id="u_p" placeholder="Percentual %"></div>
+                    <div style="display:flex; gap:10px">
+                        <button class="btn btn-primary" onclick="calcUtil('desc')">Aplicar Desconto</button>
+                        <button class="btn btn-primary" onclick="calcUtil('acr')">Aplicar Acréscimo</button>
+                    </div>
+                    <div id="res_util" class="result-box"></div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        // ENGINE DE NAVEGAÇÃO CORRIGIDA
+        function switchSection(id, btn) {
+            // Remove 'active' de todas as seções
+            const sections = document.querySelectorAll('.section');
+            sections.forEach(s => s.classList.remove('active'));
+            
+            // Remove 'active' de todos os botões da sidebar
+            const navButtons = document.querySelectorAll('.nav-button');
+            navButtons.forEach(b => b.classList.remove('active'));
+            
+            // Ativa a seção alvo e o botão
+            const target = document.getElementById(id);
+            if (target) {
+                target.classList.add('active');
+            }
+            if (btn) {
+                btn.classList.add('active');
+            }
+            
+            // Scroll para o topo (útil em mobile)
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function switchTab(id, btn) {
+            const parent = btn.parentElement.parentElement; // .section
+            const tabs = parent.querySelectorAll('.tab-content');
+            const tabBtns = parent.querySelectorAll('.tab-btn');
+            
+            tabs.forEach(t => t.classList.remove('active'));
+            tabBtns.forEach(b => b.classList.remove('active'));
+            
+            document.getElementById(id).classList.add('active');
+            btn.classList.add('active');
+        }
+
+        function toggleTheme() {
+            const isDark = document.body.classList.toggle('dark-mode');
+            localStorage.setItem('hub_theme', isDark ? 'dark' : 'light');
+        }
+
+        // ENGINE DE CÁLCULO
+        function renderResult(boxId, val, unit = "") {
+            const box = document.getElementById(boxId);
+            if (isNaN(val)) {
+                box.innerHTML = `<div class="result-label" style="color:var(--color-danger)">Erro</div><div class="result-value" style="font-size:16px">Verifique os valores.</div>`;
+            } else {
+                box.innerHTML = `<button class="copy-btn" onclick="copyResult('${boxId}')">Copiar</button><div class="result-label">Resultado Calculado</div><div class="result-value">${val.toLocaleString('pt-BR', {minimumFractionDigits: 2, maximumFractionDigits: 4})} ${unit}</div>`;
+            }
+            box.classList.add('show');
+        }
+
+        function calcFuel() {
+            const d = parseFloat(document.getElementById('f_dist').value);
+            const c = parseFloat(document.getElementById('f_cons').value);
+            const p = parseFloat(document.getElementById('f_prec').value);
+            renderResult('res_fuel', (d / c) * p, "R$");
+        }
+
+        function calc2D(t) {
+            let r = NaN;
+            if (t === 'q') r = Math.pow(parseFloat(document.getElementById('q_l').value), 2);
+            if (t === 'r') r = parseFloat(document.getElementById('r_b').value) * parseFloat(document.getElementById('r_h').value);
+            if (t === 't') r = (parseFloat(document.getElementById('t_b').value) * parseFloat(document.getElementById('t_h').value)) / 2;
+            if (t === 'c') r = Math.PI * Math.pow(parseFloat(document.getElementById('c_r').value), 2);
+            if (t === 'tr') r = ((parseFloat(document.getElementById('tr_B').value) + parseFloat(document.getElementById('tr_b').value)) * parseFloat(document.getElementById('tr_h').value)) / 2;
+            if (t === 'l') r = (parseFloat(document.getElementById('l_D').value) * parseFloat(document.getElementById('l_d').value)) / 2;
+            if (t === 'e') r = Math.PI * parseFloat(document.getElementById('e_a').value) * parseFloat(document.getElementById('e_b').value);
+            renderResult('res_' + t, r, "m²");
+        }
+
+        function calc3D(t) {
+            let r = NaN;
+            if (t === 'cb') r = Math.pow(parseFloat(document.getElementById('cb_l').value), 3);
+            if (t === 'pp') r = parseFloat(document.getElementById('pp_c').value) * parseFloat(document.getElementById('pp_l').value) * parseFloat(document.getElementById('pp_a').value);
+            if (t === 'cl') r = Math.PI * Math.pow(parseFloat(document.getElementById('cl_r').value), 2) * parseFloat(document.getElementById('cl_h').value);
+            if (t === 'cn') r = (Math.PI * Math.pow(parseFloat(document.getElementById('cn_r').value), 2) * parseFloat(document.getElementById('cn_h').value)) / 3;
+            if (t === 'es') r = (4/3) * Math.PI * Math.pow(parseFloat(document.getElementById('es_r').value), 3);
+            if (t === 'pi') r = (Math.pow(parseFloat(document.getElementById('pi_l').value), 2) * parseFloat(document.getElementById('pi_h').value)) / 3;
+            if (t === 'pt') r = ((parseFloat(document.getElementById('pt_b').value) * parseFloat(document.getElementById('pt_ht').value)) / 2) * parseFloat(document.getElementById('pt_hp').value);
+            renderResult('res_' + t, r, "m³");
+        }
+
+        // CONVERSORES TÉCNICOS
+        const CONFIG = {
+            moedas: { t: "Câmbio Comercial", u: { BRL: 1, USD: 0.17, EUR: 0.16, GBP: 0.13, JPY: 25.5, CAD: 0.23, AUD: 0.26 } },
+            temp: { t: "Escalas de Temperatura", u: { C: 1, F: 1.8, K: 1 } },
+            comp: { t: "Comprimento & Distância", u: { m: 1, km: 0.001, cm: 100, mm: 1000, in: 39.37, ft: 3.28, mi: 0.00062 } },
+            massa: { t: "Pesos & Massas", u: { kg: 1, g: 1000, ton: 0.001, lb: 2.20, oz: 35.27 } },
+            vel: { t: "Taxas de Velocidade", u: { kmh: 1, ms: 0.277, mph: 0.621, knots: 0.54 } },
+            vol: { t: "Líquidos & Capacidade", u: { L: 1, mL: 1000, m3: 0.001, gal: 0.264, cup: 4.22 } },
+            area: { t: "Extensões de Área", u: { m2: 1, ha: 0.0001, km2: 0.000001, acre: 0.00024, ft2: 10.76 } },
+            dados: { t: "Dados Digitais", u: { B: 1073741824, KB: 1048576, MB: 1024, GB: 1, TB: 0.00097 } },
+            pressao: { t: "Pressão de Gases", u: { Pa: 101325, kPa: 101.3, bar: 1.013, psi: 14.69, atm: 1 } }
+        };
+
+        function initConverters() {
+            Object.keys(CONFIG).forEach(k => {
+                const el = document.getElementById('ui_' + k); if(!el) return;
+                const units = Object.keys(CONFIG[k].u);
+                el.innerHTML = `
+                    <div class="subsection-title">${CONFIG[k].t}</div>
+                    <div class="form-grid">
+                        <input type="number" id="${k}_v" oninput="runConv('${k}')" placeholder="Valor">
+                        <select id="${k}_f" onchange="runConv('${k}')">${units.map(u => `<option>${u}</option>`)}</select>
+                        <select id="${k}_t" onchange="runConv('${k}')">${units.map(u => `<option>${u}</option>`)}</select>
+                    </div><div id="res_${k}" class="result-box"></div>`;
+            });
+        }
+
+        function runConv(k) {
+            const v = parseFloat(document.getElementById(k + '_v').value);
+            const f = document.getElementById(k + '_f').value;
+            const t = document.getElementById(k + '_t').value;
+            if (isNaN(v)) return;
+            let res;
+            if (k === 'temp') {
+                if (f === 'C' && t === 'F') res = (v * 9/5) + 32;
+                else if (f === 'F' && t === 'C') res = (v - 32) * 5/9;
+                else if (f === 'C' && t === 'K') res = v + 273.15;
+                else if (f === 'K' && t === 'C') res = v - 273.15;
+                else res = v;
+            } else {
+                res = (v / CONFIG[k].u[f]) * CONFIG[k].u[t];
+            }
+            renderResult('res_' + k, res, t);
+        }
+
+        function calcUtil(type) {
+            const v = parseFloat(document.getElementById('u_v').value);
+            const p = parseFloat(document.getElementById('u_p').value);
+            const res = type === 'desc' ? v - (v * p / 100) : v + (v * p / 100);
+            renderResult('res_util', res, "R$");
+        }
+
+        function copyResult(id) {
+            const val = document.getElementById(id).querySelector('.result-value').textContent;
+            navigator.clipboard.writeText(val);
+            const btn = document.getElementById(id).querySelector('.copy-btn');
+            btn.textContent = "✓";
+            setTimeout(() => btn.textContent = "Copiar", 1500);
+        }
+
+        window.onload = () => {
+            if(localStorage.getItem('hub_theme') === 'dark') document.body.classList.add('dark-mode');
+            initConverters();
+        };
+    </script>
+</body>
+</html>
