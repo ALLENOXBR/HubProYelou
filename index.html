@@ -134,7 +134,7 @@
         <div class="header-content">
             <div>
                 <h1>⚙️ Hub Pro - Edição Master</h1>
-                <p style="font-size: 11px; opacity: 0.9;">Calculadora Técnica & Geometria de Precisão</p>
+                <p style="font-size: 11px; opacity: 0.9;">Suite de Cálculos Técnicos & Precisão</p>
             </div>
             <button class="theme-toggle" style="background:rgba(15, 23, 42, 0.1); border:none; width:36px; height:36px; border-radius:50%; color:var(--color-primary-text); cursor:pointer;" onclick="toggleTheme()">🌙</button>
         </div>
@@ -142,9 +142,10 @@
 
     <div class="container">
         <aside class="sidebar">
-            <div class="sidebar-title">Cálculos</div>
+            <div class="sidebar-title">Calculadoras</div>
             <button class="nav-button active" onclick="switchSection('combustivel', this)">⛽ Combustível</button>
-            <button class="nav-button" onclick="switchSection('geometrica', this)">📐 Geometria</button>
+            <button class="nav-button" onclick="switchSection('geometrica', this)">📐 Geometria (A/V)</button>
+            <button class="nav-button" onclick="switchSection('perimetro', this)">📏 Perímetros</button>
             <button class="nav-button" onclick="switchSection('utilidades', this)">🛠️ Utilidades</button>
             
             <div class="sidebar-title">Conversores</div>
@@ -163,7 +164,7 @@
             <!-- SEÇÃO COMBUSTÍVEL -->
             <section id="combustivel" class="section active">
                 <h2 class="section-title">⛽ Combustível</h2>
-                <p class="section-desc">Cálculo de autonomia e gastos para viagens.</p>
+                <p class="section-desc">Logística de viagem e estimativa de gastos.</p>
                 <div class="subsection">
                     <div class="formula">Custo = (Distância / Consumo) × Preço Litro</div>
                     <div class="form-grid">
@@ -176,38 +177,85 @@
                 </div>
             </section>
 
-            <!-- SEÇÃO GEOMETRIA (COMPLETA) -->
-            <section id="geometrica" class="section">
-                <h2 class="section-title">📐 Geometria</h2>
-                <div class="tabs">
-                    <button class="tab-btn active" onclick="switchTab('geo2d', this)">Planas (2D)</button>
-                    <button class="tab-btn" onclick="switchTab('geo3d', this)">Espaciais (3D)</button>
+            <!-- SEÇÃO PERÍMETROS (NOVA) -->
+            <section id="perimetro" class="section">
+                <h2 class="section-title">📏 Perímetros Planos</h2>
+                <p class="section-desc">Cálculo da soma de todos os lados (contorno) de figuras 2D.</p>
+                
+                <div class="subsection">
+                    <div class="subsection-title">Quadrado</div><div class="formula">P = 4 × L</div>
+                    <span class="tip-text">Dica: O perímetro é quatro vezes a medida de um lado.</span>
+                    <label>Lado (L)</label><input type="number" id="pq_l">
+                    <button class="btn btn-primary" onclick="calcPerim('q')">Calcular Perímetro</button><div id="resp_q" class="result-box"></div>
                 </div>
 
-                <!-- 2D FIGURES -->
-                <div id="geo2d" class="tab-content active">
-                    <div class="subsection"><div class="subsection-title">Quadrado</div><div class="formula">A = L²</div><label>Lado (L)</label><input type="number" id="q_l"><button class="btn btn-primary" onclick="calc2D('q')">Calcular Área</button><div id="res_q" class="result-box"></div></div>
-                    <div class="subsection"><div class="subsection-title">Retângulo</div><div class="formula">A = b × h</div><div class="form-grid"><input type="number" id="r_b" placeholder="Base"><input type="number" id="r_h" placeholder="Altura"></div><button class="btn btn-primary" onclick="calc2D('r')">Calcular Área</button><div id="res_r" class="result-box"></div></div>
-                    <div class="subsection"><div class="subsection-title">Triângulo</div><div class="formula">A = (b × h) / 2</div><div class="form-grid"><input type="number" id="t_b" placeholder="Base"><input type="number" id="t_h" placeholder="Altura"></div><button class="btn btn-primary" onclick="calc2D('t')">Calcular Área</button><div id="res_t" class="result-box"></div></div>
-                    <div class="subsection"><div class="subsection-title">Círculo</div><div class="formula">A = π × r²</div><label>Raio (r)</label><input type="number" id="c_r"><button class="btn btn-primary" onclick="calc2D('c')">Calcular Área</button><div id="res_c" class="result-box"></div></div>
-                    <div class="subsection"><div class="subsection-title">Trapézio</div><div class="formula">A = ((B + b) × h) / 2</div><div class="form-grid"><input type="number" id="tr_B" placeholder="Base M"><input type="number" id="tr_b" placeholder="Base m"><input type="number" id="tr_h" placeholder="Altura"></div><button class="btn btn-primary" onclick="calc2D('tr')">Calcular Área</button><div id="res_tr" class="result-box"></div></div>
-                    <div class="subsection"><div class="subsection-title">Losango</div><div class="formula">A = (D × d) / 2</div><div class="form-grid"><input type="number" id="l_D" placeholder="D Maior"><input type="number" id="l_d" placeholder="d Menor"></div><button class="btn btn-primary" onclick="calc2D('l')">Calcular Área</button><div id="res_l" class="result-box"></div></div>
-                    <div class="subsection"><div class="subsection-title">Elipse</div><div class="formula">A = π × a × b</div><div class="form-grid"><input type="number" id="e_a" placeholder="Eixo a"><input type="number" id="e_b" placeholder="Eixo b"></div><button class="btn btn-primary" onclick="calc2D('e')">Calcular Área</button><div id="res_e" class="result-box"></div></div>
+                <div class="subsection">
+                    <div class="subsection-title">Retângulo</div><div class="formula">P = 2 × (Base + Altura)</div>
+                    <span class="tip-text">Dica: Some a base e a altura e multiplique o resultado por 2.</span>
+                    <div class="form-grid"><input type="number" id="pr_b" placeholder="Base"><input type="number" id="pr_h" placeholder="Altura"></div>
+                    <button class="btn btn-primary" onclick="calcPerim('r')">Calcular Perímetro</button><div id="resp_r" class="result-box"></div>
                 </div>
 
-                <!-- 3D FIGURES -->
-                <div id="geo3d" class="tab-content">
-                    <div class="subsection"><div class="subsection-title">Cubo</div><div class="formula">V = L³</div><label>Aresta (L)</label><input type="number" id="cb_l"><button class="btn btn-primary" onclick="calc3D('cb')">Calcular Volume</button><div id="res_cb" class="result-box"></div></div>
-                    <div class="subsection"><div class="subsection-title">Paralelepípedo</div><div class="formula">V = c × l × a</div><div class="form-grid"><input type="number" id="pp_c" placeholder="C"><input type="number" id="pp_l" placeholder="L"><input type="number" id="pp_a" placeholder="A"></div><button class="btn btn-primary" onclick="calc3D('pp')">Calcular Volume</button><div id="res_pp" class="result-box"></div></div>
-                    <div class="subsection"><div class="subsection-title">Cilindro</div><div class="formula">V = π × r² × h</div><div class="form-grid"><input type="number" id="cl_r" placeholder="Raio"><input type="number" id="cl_h" placeholder="Altura"></div><button class="btn btn-primary" onclick="calc3D('cl')">Calcular Volume</button><div id="res_cl" class="result-box"></div></div>
-                    <div class="subsection"><div class="subsection-title">Cone</div><div class="formula">V = (π × r² × h) / 3</div><div class="form-grid"><input type="number" id="cn_r" placeholder="Raio"><input type="number" id="cn_h" placeholder="Altura"></div><button class="btn btn-primary" onclick="calc3D('cn')">Calcular Volume</button><div id="res_cn" class="result-box"></div></div>
-                    <div class="subsection"><div class="subsection-title">Esfera</div><div class="formula">V = (4/3) × π × r³</div><label>Raio (r)</label><input type="number" id="es_r"><button class="btn btn-primary" onclick="calc3D('es')">Calcular Volume</button><div id="res_es" class="result-box"></div></div>
-                    <div class="subsection"><div class="subsection-title">Pirâmide</div><div class="formula">V = (Ab × h) / 3</div><div class="form-grid"><input type="number" id="pi_l" placeholder="Lado Base"><input type="number" id="pi_h" placeholder="Altura"></div><button class="btn btn-primary" onclick="calc3D('pi')">Calcular Volume</button><div id="res_pi" class="result-box"></div></div>
-                    <div class="subsection"><div class="subsection-title">Prisma Triangular</div><div class="formula">V = ((b × ht)/2) × hp</div><div class="form-grid"><input type="number" id="pt_b" placeholder="Base T"><input type="number" id="pt_ht" placeholder="Alt T"><input type="number" id="pt_hp" placeholder="Alt P"></div><button class="btn btn-primary" onclick="calc3D('pt')">Calcular Volume</button><div id="res_pt" class="result-box"></div></div>
+                <div class="subsection">
+                    <div class="subsection-title">Triângulo</div><div class="formula">P = Lado A + Lado B + Lado C</div>
+                    <span class="tip-text">Dica: Insira a medida dos três lados individualmente.</span>
+                    <div class="form-grid"><input type="number" id="pt_a" placeholder="Lado A"><input type="number" id="pt_b" placeholder="Lado B"><input type="number" id="pt_c" placeholder="Lado C"></div>
+                    <button class="btn btn-primary" onclick="calcPerim('t')">Calcular Perímetro</button><div id="resp_t" class="result-box"></div>
+                </div>
+
+                <div class="subsection">
+                    <div class="subsection-title">Círculo (Circunferência)</div><div class="formula">C = 2 × π × r</div>
+                    <span class="tip-text">Dica: O perímetro de um círculo é chamado de circunferência.</span>
+                    <label>Raio (r)</label><input type="number" id="pc_r">
+                    <button class="btn btn-primary" onclick="calcPerim('c')">Calcular Perímetro</button><div id="resp_c" class="result-box"></div>
+                </div>
+
+                <div class="subsection">
+                    <div class="subsection-title">Trapézio</div><div class="formula">P = B + b + L1 + L2</div>
+                    <span class="tip-text">Dica: Soma das bases e dos dois lados laterais.</span>
+                    <div class="form-grid">
+                        <input type="number" id="ptr_B" placeholder="Base Maior"><input type="number" id="ptr_b" placeholder="Base Menor">
+                        <input type="number" id="ptr_l1" placeholder="Lado 1"><input type="number" id="ptr_l2" placeholder="Lado 2">
+                    </div>
+                    <button class="btn btn-primary" onclick="calcPerim('tr')">Calcular Perímetro</button><div id="resp_tr" class="result-box"></div>
+                </div>
+
+                <div class="subsection">
+                    <div class="subsection-title">Losango</div><div class="formula">P = 4 × L</div>
+                    <span class="tip-text">Dica: No losango, todos os quatro lados têm a mesma medida.</span>
+                    <label>Lado (L)</label><input type="number" id="pl_l">
+                    <button class="btn btn-primary" onclick="calcPerim('l')">Calcular Perímetro</button><div id="resp_l" class="result-box"></div>
+                </div>
+
+                <div class="subsection">
+                    <div class="subsection-title">Elipse (Aproximado)</div><div class="formula">P ≈ 2π × √((a² + b²) / 2)</div>
+                    <span class="tip-text">Dica: O perímetro da elipse é uma estimativa complexa; esta é a fórmula de Ramanujan básica.</span>
+                    <div class="form-grid"><input type="number" id="pe_a" placeholder="Semieixo a"><input type="number" id="pe_b" placeholder="Semieixo b"></div>
+                    <button class="btn btn-primary" onclick="calcPerim('e')">Calcular Perímetro</button><div id="resp_e" class="result-box"></div>
                 </div>
             </section>
 
-            <!-- CONVERSORES DINÂMICOS -->
+            <!-- SEÇÃO GEOMETRIA (A/V) -->
+            <section id="geometrica" class="section">
+                <h2 class="section-title">📐 Geometria (Área & Volume)</h2>
+                <p class="section-desc">Cálculos espaciais e superfícies.</p>
+                <div class="tabs">
+                    <button class="tab-btn active" onclick="switchTab('geo2d', this)">Planas (Área)</button>
+                    <button class="tab-btn" onclick="switchTab('geo3d', this)">Espaciais (Volume)</button>
+                </div>
+                <div id="geo2d" class="tab-content active">
+                    <div class="subsection"><div class="subsection-title">Quadrado</div><div class="formula">A = L²</div><label>Lado</label><input type="number" id="q_l"><button class="btn btn-primary" onclick="calc2D('q')">Calcular Área</button><div id="res_q" class="result-box"></div></div>
+                    <div class="subsection"><div class="subsection-title">Retângulo</div><div class="formula">A = b × h</div><div class="form-grid"><input type="number" id="r_b" placeholder="Base"><input type="number" id="r_h" placeholder="Altura"></div><button class="btn btn-primary" onclick="calc2D('r')">Calcular Área</button><div id="res_r" class="result-box"></div></div>
+                    <div class="subsection"><div class="subsection-title">Círculo</div><div class="formula">A = π × r²</div><label>Raio</label><input type="number" id="c_r"><button class="btn btn-primary" onclick="calc2D('c')">Calcular Área</button><div id="res_c" class="result-box"></div></div>
+                    <div class="subsection"><div class="subsection-title">Triângulo</div><div class="formula">A = (b × h) / 2</div><div class="form-grid"><input type="number" id="t_b" placeholder="Base"><input type="number" id="t_h" placeholder="Altura"></div><button class="btn btn-primary" onclick="calc2D('t')">Calcular Área</button><div id="res_t" class="result-box"></div></div>
+                </div>
+                <div id="geo3d" class="tab-content">
+                    <div class="subsection"><div class="subsection-title">Cubo</div><div class="formula">V = L³</div><label>Aresta</label><input type="number" id="cb_l"><button class="btn btn-primary" onclick="calc3D('cb')">Calcular Volume</button><div id="res_cb" class="result-box"></div></div>
+                    <div class="subsection"><div class="subsection-title">Cilindro</div><div class="formula">V = π × r² × h</div><div class="form-grid"><input type="number" id="cl_r" placeholder="Raio"><input type="number" id="cl_h" placeholder="Altura"></div><button class="btn btn-primary" onclick="calc3D('cl')">Calcular Volume</button><div id="res_cl" class="result-box"></div></div>
+                </div>
+            </section>
+
+            <!-- CONVERSORES -->
             <section id="moedas" class="section"><h2 class="section-title">💱 Moedas</h2><div id="ui_moedas" class="subsection"></div></section>
             <section id="temperatura" class="section"><h2 class="section-title">🌡️ Temperatura</h2><div id="ui_temp" class="subsection"></div></section>
             <section id="comprimento" class="section"><h2 class="section-title">📏 Comprimento</h2><div id="ui_comp" class="subsection"></div></section>
@@ -222,7 +270,7 @@
             <section id="utilidades" class="section">
                 <h2 class="section-title">🛠️ Utilidades</h2>
                 <div class="subsection">
-                    <div class="subsection-title">Desconto / Acréscimo Perc.</div>
+                    <div class="subsection-title">Desconto / Acréscimo</div>
                     <div class="form-grid"><input type="number" id="u_v" placeholder="Valor Original"><input type="number" id="u_p" placeholder="Percentual %"></div>
                     <div style="display:flex; gap:10px">
                         <button class="btn btn-primary" onclick="calcUtil('desc')">Aplicar Desconto</button>
@@ -235,37 +283,19 @@
     </div>
 
     <script>
-        // ENGINE DE NAVEGAÇÃO CORRIGIDA
+        // ENGINE DE NAVEGAÇÃO
         function switchSection(id, btn) {
-            // Remove 'active' de todas as seções
-            const sections = document.querySelectorAll('.section');
-            sections.forEach(s => s.classList.remove('active'));
-            
-            // Remove 'active' de todos os botões da sidebar
-            const navButtons = document.querySelectorAll('.nav-button');
-            navButtons.forEach(b => b.classList.remove('active'));
-            
-            // Ativa a seção alvo e o botão
-            const target = document.getElementById(id);
-            if (target) {
-                target.classList.add('active');
-            }
-            if (btn) {
-                btn.classList.add('active');
-            }
-            
-            // Scroll para o topo (útil em mobile)
+            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+            document.querySelectorAll('.nav-button').forEach(b => b.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+            btn.classList.add('active');
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
         function switchTab(id, btn) {
-            const parent = btn.parentElement.parentElement; // .section
-            const tabs = parent.querySelectorAll('.tab-content');
-            const tabBtns = parent.querySelectorAll('.tab-btn');
-            
-            tabs.forEach(t => t.classList.remove('active'));
-            tabBtns.forEach(b => b.classList.remove('active'));
-            
+            const parent = btn.parentElement.parentElement;
+            parent.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+            parent.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
             document.getElementById(id).classList.add('active');
             btn.classList.add('active');
         }
@@ -278,7 +308,7 @@
         // ENGINE DE CÁLCULO
         function renderResult(boxId, val, unit = "") {
             const box = document.getElementById(boxId);
-            if (isNaN(val)) {
+            if (isNaN(val) || val === null) {
                 box.innerHTML = `<div class="result-label" style="color:var(--color-danger)">Erro</div><div class="result-value" style="font-size:16px">Verifique os valores.</div>`;
             } else {
                 box.innerHTML = `<button class="copy-btn" onclick="copyResult('${boxId}')">Copiar</button><div class="result-label">Resultado Calculado</div><div class="result-value">${val.toLocaleString('pt-BR', {minimumFractionDigits: 2, maximumFractionDigits: 4})} ${unit}</div>`;
@@ -286,6 +316,7 @@
             box.classList.add('show');
         }
 
+        // CÁLCULOS ESPECÍFICOS
         function calcFuel() {
             const d = parseFloat(document.getElementById('f_dist').value);
             const c = parseFloat(document.getElementById('f_cons').value);
@@ -299,25 +330,41 @@
             if (t === 'r') r = parseFloat(document.getElementById('r_b').value) * parseFloat(document.getElementById('r_h').value);
             if (t === 't') r = (parseFloat(document.getElementById('t_b').value) * parseFloat(document.getElementById('t_h').value)) / 2;
             if (t === 'c') r = Math.PI * Math.pow(parseFloat(document.getElementById('c_r').value), 2);
-            if (t === 'tr') r = ((parseFloat(document.getElementById('tr_B').value) + parseFloat(document.getElementById('tr_b').value)) * parseFloat(document.getElementById('tr_h').value)) / 2;
-            if (t === 'l') r = (parseFloat(document.getElementById('l_D').value) * parseFloat(document.getElementById('l_d').value)) / 2;
-            if (t === 'e') r = Math.PI * parseFloat(document.getElementById('e_a').value) * parseFloat(document.getElementById('e_b').value);
             renderResult('res_' + t, r, "m²");
         }
 
         function calc3D(t) {
             let r = NaN;
             if (t === 'cb') r = Math.pow(parseFloat(document.getElementById('cb_l').value), 3);
-            if (t === 'pp') r = parseFloat(document.getElementById('pp_c').value) * parseFloat(document.getElementById('pp_l').value) * parseFloat(document.getElementById('pp_a').value);
             if (t === 'cl') r = Math.PI * Math.pow(parseFloat(document.getElementById('cl_r').value), 2) * parseFloat(document.getElementById('cl_h').value);
-            if (t === 'cn') r = (Math.PI * Math.pow(parseFloat(document.getElementById('cn_r').value), 2) * parseFloat(document.getElementById('cn_h').value)) / 3;
-            if (t === 'es') r = (4/3) * Math.PI * Math.pow(parseFloat(document.getElementById('es_r').value), 3);
-            if (t === 'pi') r = (Math.pow(parseFloat(document.getElementById('pi_l').value), 2) * parseFloat(document.getElementById('pi_h').value)) / 3;
-            if (t === 'pt') r = ((parseFloat(document.getElementById('pt_b').value) * parseFloat(document.getElementById('pt_ht').value)) / 2) * parseFloat(document.getElementById('pt_hp').value);
             renderResult('res_' + t, r, "m³");
         }
 
-        // CONVERSORES TÉCNICOS
+        // LÓGICA DE PERÍMETROS (NOVA)
+        function calcPerim(t) {
+            let r = NaN;
+            if (t === 'q') r = 4 * parseFloat(document.getElementById('pq_l').value);
+            if (t === 'r') r = 2 * (parseFloat(document.getElementById('pr_b').value) + parseFloat(document.getElementById('pr_h').value));
+            if (t === 't') r = parseFloat(document.getElementById('pt_a').value) + parseFloat(document.getElementById('pt_b').value) + parseFloat(document.getElementById('pt_c').value);
+            if (t === 'c') r = 2 * Math.PI * parseFloat(document.getElementById('pc_r').value);
+            if (t === 'tr') r = parseFloat(document.getElementById('ptr_B').value) + parseFloat(document.getElementById('ptr_b').value) + parseFloat(document.getElementById('ptr_l1').value) + parseFloat(document.getElementById('ptr_l2').value);
+            if (t === 'l') r = 4 * parseFloat(document.getElementById('pl_l').value);
+            if (t === 'e') {
+                const a = parseFloat(document.getElementById('pe_a').value);
+                const b = parseFloat(document.getElementById('pe_b').value);
+                r = 2 * Math.PI * Math.sqrt((Math.pow(a, 2) + Math.pow(b, 2)) / 2);
+            }
+            renderResult('resp_' + t, r, "m");
+        }
+
+        function calcUtil(type) {
+            const v = parseFloat(document.getElementById('u_v').value);
+            const p = parseFloat(document.getElementById('u_p').value);
+            const res = type === 'desc' ? v - (v * p / 100) : v + (v * p / 100);
+            renderResult('res_util', res, "R$");
+        }
+
+        // CONVERSORES
         const CONFIG = {
             moedas: { t: "Câmbio Comercial", u: { BRL: 1, USD: 0.17, EUR: 0.16, GBP: 0.13, JPY: 25.5, CAD: 0.23, AUD: 0.26 } },
             temp: { t: "Escalas de Temperatura", u: { C: 1, F: 1.8, K: 1 } },
@@ -360,13 +407,6 @@
                 res = (v / CONFIG[k].u[f]) * CONFIG[k].u[t];
             }
             renderResult('res_' + k, res, t);
-        }
-
-        function calcUtil(type) {
-            const v = parseFloat(document.getElementById('u_v').value);
-            const p = parseFloat(document.getElementById('u_p').value);
-            const res = type === 'desc' ? v - (v * p / 100) : v + (v * p / 100);
-            renderResult('res_util', res, "R$");
         }
 
         function copyResult(id) {
